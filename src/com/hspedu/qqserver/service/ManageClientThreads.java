@@ -1,6 +1,8 @@
 package com.hspedu.qqserver.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * @version 1.0
@@ -18,5 +20,16 @@ public class ManageClientThreads {
     // 根据userId,返回ServerConnectClientThread线程
     public static ServerConnectClientThread getServerConnectClientThread(String userId) {
         return hm.get(userId);
+    }
+
+    // 这里编写方法，遍历 hashmap的key
+    public static String getOnlineUser() {
+        // 遍历集合，遍历hashmap的key，使用的是迭代器
+        Iterator<String> iterator = hm.keySet().iterator();
+        String onlineUserList = "";
+        while (iterator.hasNext()) {
+            onlineUserList += iterator.next().toString() + " ";
+        }
+        return onlineUserList;
     }
 }
