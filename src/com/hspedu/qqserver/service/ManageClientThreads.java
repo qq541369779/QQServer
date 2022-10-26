@@ -12,6 +12,11 @@ import java.util.Locale;
 public class ManageClientThreads {
     private static HashMap<String, ServerConnectClientThread> hm = new HashMap<>();
 
+    // 返回 mp
+    public static HashMap<String, ServerConnectClientThread> getHm() {
+        return hm;
+    }
+
     // 添加线程对象到 hm 集合
     public static void addClientThread(String userId, ServerConnectClientThread serverConnectClientThread) {
         hm.put(userId, serverConnectClientThread);
@@ -20,6 +25,11 @@ public class ManageClientThreads {
     // 根据userId,返回ServerConnectClientThread线程
     public static ServerConnectClientThread getServerConnectClientThread(String userId) {
         return hm.get(userId);
+    }
+
+    // 增加一个方法，从集合中，移除某个线程对象
+    public static void removeServerConnectClientThread(String userId) {
+        hm.remove(userId);
     }
 
     // 这里编写方法，遍历 hashmap的key
