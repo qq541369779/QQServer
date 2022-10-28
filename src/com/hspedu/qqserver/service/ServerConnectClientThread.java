@@ -70,12 +70,12 @@ public class ServerConnectClientThread extends Thread {
                     // 需要遍历 管理线程的集合，把所有的线程的socket得到，然后把message进行转发即可
                     HashMap<String, ServerConnectClientThread> hm = ManageClientThreads.getHm();
                     Iterator<String> iterator = hm.keySet().iterator();
-                    while (iterator.hasNext()){
+                    while (iterator.hasNext()) {
 
                         // 取出在线用户id
                         String onLineUserId = iterator.next().toString();
 
-                        if(!onLineUserId.equals(message.getSender())){ //排除群发消息的这个用户
+                        if (!onLineUserId.equals(message.getSender())) { //排除群发消息的这个用户
 
                             // 进行转发message
                             ObjectOutputStream oos =
@@ -83,6 +83,14 @@ public class ServerConnectClientThread extends Thread {
                             oos.writeObject(message);
                         }
                     }
+                } else if (message.getMesType().equals(MessageType.MESSAGE_FILE_MES)) {
+                    // 根据getter id 获取到对应得线程，将message对象转发
+                    ServerConnectClientThread serverConnectClientThread =
+                            ManageClientThreads.getServerConnectClientThread(message.getGetter());
+                    ObjectOutputStream oos =
+                            new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
+                    // 转发
+                    oos.writeObject(message);
 
                 } else if (message.getMesType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {// 客户端退出
 
